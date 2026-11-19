@@ -1,49 +1,44 @@
-﻿# PROG5121 Programming 1A - Part 2
+# PROG5121 Programming 1A – Part 3
 
 ## About
+This project was developed for the PROG5121 Programming 1A Portfolio of Evidence (POE), Part 3.
 
-This project was developed for PROG5121 Programming 1A Part 2 as part of the Portfolio of Evidence (POE). It includes Java login functionality and message management functionality, supported by automated JUnit tests.
+It builds on the previous parts by integrating Java login functionality, message management and stored-message functionality.
 
-## Project Contents
+## Project Features
+- User registration and login functionality.
+- Message creation and management.
+- Message validation.
+- Message identification and hashing.
+- Storage and retrieval of messages.
+- Searching for messages using message IDs and recipient details.
+- Deleting stored messages using message hashes.
+- Displaying stored-message reports.
 
-- `Login.java` - User registration and login functionality.
-- `Message.java` - Message management functionality.
-- `LoginTest.java` - Automated tests for login functionality.
-- `MessageTest.java` - Automated tests for message functionality.
-- `pom.xml` - Maven project configuration.
-
-## Testing
-
-The project was tested in NetBeans using JUnit.
-
-Last recorded test results: 34 tests passed, with 0 failures, errors, or skipped tests.
-
-To run the tests, right-click the project in NetBeans and select Test. Run the tests again to verify the current results.
+## Project Structure
+- `Login.java` – Login and registration functionality.
+- `Message.java` – Message-related functionality.
+- `MessageManager.java` – Message management operations.
+- `MessageStorage.java` – Stored-message operations.
+- `messages.json` – Stored message data.
+- `src/test` – Automated unit tests.
+- `pom.xml` – Maven project configuration.
 
 ## Technologies
-
 - Java
 - Apache Maven
 - JUnit
 - NetBeans IDE
 - Git and GitHub
 
-## Version Control
+## Running the Tests
+Run the automated tests through NetBeans by right-clicking the project and selecting **Test**.
 
-The source code is maintained in the GitHub repository for Part 2.
+Alternatively, run:
+
+```bash
+mvn test
+```
 
 ## Author
-
 Lesego Pitsi Mokaba
-
-## Running the Tests
-
-The project uses Maven and JUnit 5 for automated testing.
-
-The test classes are:
-- `LoginTest.java` — tests user registration and login functionality.
-- `MessageTest.java` — tests message validation and message-related functionality.
-
-To run the tests in NetBeans, right-click the project and select **Test**.
-
-A successful test run should report 32 tests with zero failures and zero errors, based on the current test suite.
