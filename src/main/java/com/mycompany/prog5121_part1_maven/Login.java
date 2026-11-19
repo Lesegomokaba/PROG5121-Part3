@@ -132,32 +132,191 @@ public String registerUser(String field) {
     }
 }
   
-  public static void main(String[] args) {
-       Login login = new Login();
-        login.setusername("kyl_1");
-         login.setfirstName("Lesego");
-    login.setlastname("Mokaba");
-    
-         System.out.println(login.checkUserName());
-          login.setPassword("Password1!");
-          
-           System.out.println(login.checkPasswordComplexity());
-            login.setcellphone("+27821234567");
-             System.out.println(login.checkCellPhoneNumber());
-             
-             System.out.println(login.registerUser("username"));
-             
-              login.setLoginUserName("kyl_1");
-    login.setLoginPassword("Password1!");
-    
-    
-    System.out.println(login.loginUser());
-System.out.println(login.returnLoginStatus());
+  
+public static void main(String[] args) {
+    java.util.Scanner scanner = new java.util.Scanner(System.in);
+    Login login = new Login();
 
+    System.out.println("================================");
+    System.out.println("          QUICKCHAT");
+    System.out.println("================================");
+    System.out.print("Enter username: ");
+    login.setusername(scanner.nextLine());
+
+    System.out.print("Enter password: ");
+    login.setPassword(scanner.nextLine());
+
+    System.out.print("Enter cellphone (+27XXXXXXXXX): ");
+    login.setcellphone(scanner.nextLine());
+
+    System.out.print("Enter first name: ");
+    login.setfirstName(scanner.nextLine());
+
+    System.out.print("Enter last name: ");
+    login.setlastname(scanner.nextLine());
+
+    System.out.println("\n" + login.registerUser());
+
+    if (!login.registerUser().equals("Registration successful.")) {
+        System.out.println("Please check your details and run the program again.");
+        scanner.close();
+        return;
+    }
+
+    System.out.println("\nPlease log in.");
+    System.out.print("Username: ");
+    login.setLoginUserName(scanner.nextLine());
+
+    System.out.print("Password: ");
+    login.setLoginPassword(scanner.nextLine());
+
+    if (!login.loginUser()) {
+        System.out.println(login.returnLoginStatus());
+        scanner.close();
+        return;
+    }
+
+    System.out.println(login.returnLoginStatus());
+
+    MessageManager manager = new MessageManager();
+    MessageStorage storage = new MessageStorage();
+
+    try {
+        manager.loadStoredMessagesFromJSON();
+    } catch (java.io.IOException e) {
+        System.out.println("Could not load stored messages: " + e.getMessage());
+    }
+
+    
+boolean running = true;
+
+while (running) {
+    System.out.println("\n========== QUICKCHAT MENU ==========");
+    System.out.println("1. Send a message");
+    System.out.println("2. View sent messages");
+    System.out.println("3. Quit");
+    System.out.println("4. Stored Messages");
+    System.out.print("Choose an option: ");
+
+    String choice = scanner.nextLine();
+
+    switch (choice) {
+        
+case "1":
+    Message message = new Message();
+
+    System.out.print("Enter recipient cellphone (+27XXXXXXXXX): ");
+    String recipient = scanner.nextLine();
+    message.setRecipient(recipient);
+
+    if (!message.checkRecipientCell()) {
+        System.out.println("Invalid cellphone number. Use +27 followed by 9 digits.");
+        break;
+    }
+
+    System.out.print("Enter your message (maximum 250 characters): ");
+    String messageText = scanner.nextLine();
+    message.setMessageText(messageText);
+
+    if (!message.checkMessageText()) {
+        System.out.println("Message is too long. Maximum length is 250 characters.");
+        break;
+    }
+
+    int messageNumber = Message.returnTotalMessagess() + 1;
+    message.setMessageNumber(messageNumber);
+   String generatedID = message.generateMessageID();
+    message.setMessageID(generatedID);
+    message.createMessageHash();
+
+    manager.addMessage(message, "Sent");
+   message.incrementTotalMessages();
+
+    System.out.println("Message successfully sent.");
+    System.out.println("Message ID: " + message.getMessageID());
+    System.out.println("Message Hash: " + message.getMessageHash());
+    System.out.println("Recipient: " + message.getRecipient());
+    System.out.println("Message: " + message.getMessageText());
+    break;
+
+
+        case "2":
+            System.out.println("Sent messages: " + manager.getSentCount());
+            break;
+
+        case "3":
+            running = false;
+            System.out.println("Thank you for using QuickChat.");
+            break;
+
+        
+case "4":
+    boolean storedMenuRunning = true;
+
+    while (storedMenuRunning) {
+        System.out.println("\n====== STORED MESSAGES ======");
+        System.out.println("1. Display sender and recipient");
+        System.out.println("2. Display longest stored message");
+        System.out.println("3. Search message by ID");
+        System.out.println("4. Search messages by recipient");
+        System.out.println("5. Delete message by hash");
+        System.out.println("6. Display full message report");
+        System.out.println("7. Return to main menu");
+        System.out.print("Choose an option: ");
+
+        String storedChoice = scanner.nextLine();
+
+        switch (storedChoice) {
+            case "1":
+                System.out.println(manager.displayStoredMessages());
+                break;
+
+            case "2":
+                System.out.println(manager.findLongestStoredMessage());
+                break;
+
+            case "3":
+                System.out.print("Enter message ID: ");
+                String searchID = scanner.nextLine();
+                System.out.println(
+                        manager.searchStoredMessageByID(searchID));
+                break;
+
+            case "4":
+                System.out.print("Enter recipient cellphone: ");
+                String searchRecipient = scanner.nextLine();
+                System.out.println(
+                        manager.searchStoredMessagesByRecipient(
+                                searchRecipient));
+                break;
+
+            case "5":
+                System.out.print("Enter message hash: ");
+                String deleteHash = scanner.nextLine();
+                System.out.println(
+                        manager.deleteStoredMessageByHash(deleteHash));
+                break;
+
+            case "6":
+                System.out.println(manager.displayStoredMessageReport());
+                break;
+
+            case "7":
+                storedMenuRunning = false;
+                break;
+
+            default:
+                System.out.println(
+                        "Invalid option. Choose a number from 1 to 7.");
+        }
+    }
+    break;
+
+    }
+    
 }
-  
-  
- }
+}
+}
 
 
 

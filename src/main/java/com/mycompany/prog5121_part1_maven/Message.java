@@ -7,6 +7,7 @@ public class Message {
     private String recipient;
     private String messageText;
     private String messageHash;
+    private String messageStatus;
 
     private static int totalMessages = 0;
 
@@ -74,14 +75,17 @@ public String createMessageHash() {
 }
 
     
-    public void generateMessageID() {
+    
+public String generateMessageID() {
     java.util.concurrent.ThreadLocalRandom random =
             java.util.concurrent.ThreadLocalRandom.current();
 
     long id = random.nextLong(1_000_000_000L, 10_000_000_000L);
 
     messageID = String.valueOf(id);
+    return messageID;
 }
+
     public String getMessageID() {
     return messageID;
 }
@@ -118,5 +122,12 @@ public static int returnTotalMessagess() {
 public void incrementTotalMessages() {
     totalMessages++;
 }
-    
+   public void setMessageStatus(String messageStatus) {
+    this.messageStatus = messageStatus;
+}
+
+public String getMessageStatus() {
+    return messageStatus;
+}
+
 }

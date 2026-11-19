@@ -135,4 +135,12 @@ public void testNullMessageID() {
 
     assertFalse(message.checkMessageID());
 }
+@Test
+public void testMessageStatus() {
+    Message message = new Message();
+
+    message.setMessageStatus("Stored");
+
+    assertEquals("Stored", message.getMessageStatus());
+}
 }
